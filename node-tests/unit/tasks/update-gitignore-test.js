@@ -11,6 +11,7 @@ describe('Update gitignore Task', function() {
   var expectedGitkeep = '';
 
   var createTask = function(ignoreStub) {
+
     td.replace(fsUtils, 'read', function() {
       return Promise.resolve(ignoreStub);
     });
@@ -104,8 +105,13 @@ describe('Update gitignore Task', function() {
   });
 
   it('outputs an error message and resolves if write fails', function() {
-    td.replace(fsUtils, 'write', function() {
-      return Promise.reject();
+    td.replace(fsUtils, 'write', function(path) {
+      if (path === '.gitignore') {
+        return Promise.reject('failed to update .gitignore');
+      } else {
+        return Promise.resolve();
+      }
+
     });
     var task = createTask();
 
