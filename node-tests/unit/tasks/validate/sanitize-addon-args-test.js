@@ -95,7 +95,7 @@ describe('Sanitize Cordova Args Test', function() {
       validator.varOpts = ['APP_ID=FOO', 'APP_NAME=FOO'];
 
       return expect(validator.run()).to.eventually
-        .have.deep.property('varOpts.APP_ID')
+        .have.nested.property('varOpts.APP_ID')
         .and.equal('FOO');
     });
   });
